@@ -1,0 +1,121 @@
+# =============================================================================
+# DATASETS RAW (01_raw)
+# =============================================================================
+
+covid_data_raw:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/covid_data_compact.csv
+  load_args:
+    sep: ","
+    encoding: "utf-8"
+  save_args:
+    index: False
+
+vaccination_global_raw:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/vaccination_global.csv
+  load_args:
+    sep: ","
+    encoding: "utf-8"
+  save_args:
+    index: False
+
+vaccination_age_raw:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/vaccination_by_age.csv
+  load_args:
+    sep: ","
+    encoding: "utf-8"
+  save_args:
+    index: False
+
+vaccination_manufacturer_raw:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/vaccination_by_manufacturer.csv
+  load_args:
+    sep: ","
+    encoding: "utf-8"
+  save_args:
+    index: False
+
+# =============================================================================
+# DATASETS INTERMEDIATE (02_intermediate)
+# =============================================================================
+
+covid_data_validated:
+  type: pandas.CSVDataset
+  filepath: data/02_intermediate/covid_validated.csv
+  save_args:
+    index: False
+
+vaccination_global_validated:
+  type: pandas.CSVDataset
+  filepath: data/02_intermediate/vaccination_global_validated.csv
+  save_args:
+    index: False
+
+vaccination_age_validated:
+  type: pandas.CSVDataset
+  filepath: data/02_intermediate/vaccination_age_validated.csv
+  save_args:
+    index: False
+
+vaccination_manufacturer_validated:
+  type: pandas.CSVDataset
+  filepath: data/02_intermediate/vaccination_manufacturer_validated.csv
+  save_args:
+    index: False
+
+# =============================================================================
+# DATASETS PRIMARY (03_primary)
+# =============================================================================
+
+covid_data_cleaned:
+  type: pandas.CSVDataset
+  filepath: data/03_primary/covid_cleaned.csv
+  save_args:
+    index: False
+
+vaccination_global_cleaned:
+  type: pandas.CSVDataset
+  filepath: data/03_primary/vaccination_global_cleaned.csv
+  save_args:
+    index: False
+
+vaccination_age_cleaned:
+  type: pandas.CSVDataset
+  filepath: data/03_primary/vaccination_age_cleaned.csv
+  save_args:
+    index: False
+
+vaccination_manufacturer_cleaned:
+  type: pandas.CSVDataset
+  filepath: data/03_primary/vaccination_manufacturer_cleaned.csv
+  save_args:
+    index: False
+
+# =============================================================================
+# DATASETS FEATURE (04_feature)
+# =============================================================================
+
+master_dataset:
+  type: pandas.CSVDataset
+  filepath: data/04_feature/master_dataset.csv
+  save_args:
+    index: False
+
+# =============================================================================
+# DATASETS MODEL INPUT (05_model_input)
+# =============================================================================
+
+model_input_classification:
+  type: pandas.CSVDataset
+  filepath: data/05_model_input/classification_data.csv
+  save_args:
+    index: False
+
+model_input_regression:
+  type: pandas.CSVDataset
+  filepath: data/05_model_input/regression_data.csv
+  save_args:
+    index: False

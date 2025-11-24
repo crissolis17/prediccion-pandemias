@@ -1,0 +1,62 @@
+# Crear/actualizar .gitignore
+@"
+# Datos (pueden ser pesados)
+data/01_raw/*.csv
+data/01_raw/*.xlsx
+data/02_intermediate/
+data/03_primary/
+data/04_feature/
+data/05_model_input/
+data/06_models/
+data/07_model_output/
+data/08_reporting/
+
+# Mantener estructura de carpetas
+!data/*/.gitkeep
+
+# Entorno virtual
+venv/
+env/
+.venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Kedro
+logs/
+*.log
+
+# Configuración local (puede tener credenciales)
+conf/local/
+!conf/local/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# DVC (si lo usarás en EP2)
+.dvc/cache/
+.dvc/tmp/
+"@ | Out-File -FilePath .gitignore -Encoding UTF8
+
+# Verificar que se creó
+type .gitignore

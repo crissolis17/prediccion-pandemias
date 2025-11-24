@@ -1,0 +1,91 @@
+# =============================================================================
+# BUSINESS UNDERSTANDING PARAMETERS
+# =============================================================================
+
+project:
+  name: "Predicción y Preparación de Pandemias"
+  objective: "Evaluar preparación de países ante pandemias usando ML"
+  target_classification: "preparedness_level" # Alto, Medio, Bajo
+  target_regression: "healthcare_capacity_score" # Score continuo
+
+# =============================================================================
+# DATA QUALITY PARAMETERS
+# =============================================================================
+
+data_quality:
+  missing_threshold: 0.5 # 50% missing values máximo por columna
+  outlier_method: "IQR"
+  outlier_threshold: 1.5
+  min_records_per_country: 30
+
+# =============================================================================
+# DATA CLEANING PARAMETERS
+# =============================================================================
+
+cleaning:
+  date_columns:
+    - "date"
+    - "vaccination_date"
+
+  numeric_imputation:
+    strategy: "median" # median, mean, forward_fill
+
+  categorical_imputation:
+    strategy: "mode"
+
+  epidemiological_vars:
+    imputation: "forward_fill" # Para variables epidemiológicas
+
+  socioeconomic_vars:
+    imputation: "median" # Para variables socioeconómicas
+
+# =============================================================================
+# FEATURE ENGINEERING PARAMETERS
+# =============================================================================
+
+feature_engineering:
+  rolling_windows:
+    - 7 # Semana
+    - 14 # 2 semanas
+    - 30 # Mes
+
+  aggregation_functions:
+    - "mean"
+    - "sum"
+    - "max"
+    - "std"
+
+  lag_features:
+    - 7
+    - 14
+    - 30
+
+  encoding:
+    categorical_method: "onehot" # onehot, label, target
+    handle_unknown: "ignore"
+
+# =============================================================================
+# TARGET DEFINITIONS
+# =============================================================================
+
+targets:
+  classification:
+    target_name: "preparedness_level"
+    thresholds:
+      high: 0.7
+      medium: 0.4
+    features_for_calculation:
+      - "vaccination_rate"
+      - "cases_per_million"
+      - "deaths_per_million"
+      - "hospital_capacity"
+
+  regression:
+    target_name: "healthcare_capacity_score"
+    min_value: 0
+    max_value: 100
+    features_for_calculation:
+      - "icu_beds_per_100k"
+      - "hospital_beds_per_100k"
+      - "doctors_per_1000"
+      - "nurses_per_1000"
