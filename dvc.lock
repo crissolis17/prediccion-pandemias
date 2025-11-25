@@ -1,0 +1,286 @@
+schema: '2.0'
+stages:
+  data_engineering:
+    cmd: kedro run --pipeline=data_engineering
+    deps:
+    - path: data/01_raw/covid_data_compact.csv
+      md5: ae988fe56d73d9c939e62dcfc007fe78
+      size: 156236704
+    - path: data/01_raw/vaccination_by_age.csv
+      md5: b319fbec8070f06651d90b9614efcb12
+      size: 3055532
+    - path: data/01_raw/vaccination_by_manufacturer.csv
+      md5: d4f381c9364c128c939644a50fa3bd4f
+      size: 30868773
+    - path: data/01_raw/vaccination_global.csv
+      md5: f6d3772771943c9724f639ef775e9673
+      size: 66040298
+    - path: src/prediccion_preparacion_pandemias/pipelines/data_engineering/
+      md5: 8d922621b8f1ae40d36fe0af95efdff1.dir
+      size: 97368
+      nfiles: 6
+    params:
+      conf/base/parameters.yml:
+        cleaning:
+          date_columns:
+          - date
+          - vaccination_date
+          numeric_imputation:
+            strategy: median
+          categorical_imputation:
+            strategy: mode
+          epidemiological_vars:
+            imputation: forward_fill
+          socioeconomic_vars:
+            imputation: median
+        feature_engineering:
+          rolling_windows:
+          - 7
+          - 14
+          - 30
+          aggregation_functions:
+          - mean
+          - sum
+          - max
+          - std
+          lag_features:
+          - 7
+          - 14
+          - 30
+          encoding:
+            categorical_method: onehot
+            handle_unknown: ignore
+    outs:
+    - path: data/02_intermediate/
+      md5: ef4548e05d15633ed5344616fe16dbc8.dir
+      size: 262849725
+      nfiles: 4
+    - path: data/03_primary/
+      md5: e89aacda44399a22b7e4370ceba52df0.dir
+      size: 260740513
+      nfiles: 4
+    - path: data/04_feature/
+      md5: cb8720e34e0922d60636fac479c903e5.dir
+      size: 573509668
+      nfiles: 2
+    - path: data/05_model_input/classification_data.csv
+      md5: 395395ee5ff0804760715daa64ea9b28
+      size: 191383846
+    - path: data/05_model_input/regression_data.csv
+      md5: ee6a98dbe3adafbd43cfeaa222875fe1
+      size: 355468435
+  train_classification:
+    cmd: kedro run --pipeline=classification
+    deps:
+    - path: data/05_model_input/classification_data.csv
+      md5: 395395ee5ff0804760715daa64ea9b28
+      size: 191383846
+    - path: 
+        src/prediccion_preparacion_pandemias/pipelines/classification_models/
+      md5: cdaac47fc3fcb35a20a4c0d1d7ff250d.dir
+      size: 53617
+      nfiles: 6
+    params:
+      conf/base/parameters.yml:
+        classification_models:
+          logistic_regression:
+            param_grid:
+              C:
+              - 0.1
+              - 1
+              penalty:
+              - l2
+              solver:
+              - lbfgs
+              max_iter:
+              - 2000
+            cv: 3
+            scoring: f1_weighted
+            n_jobs: -1
+          random_forest_classifier:
+            param_grid:
+              n_estimators:
+              - 100
+              max_depth:
+              - 20
+              min_samples_split:
+              - 2
+              min_samples_leaf:
+              - 1
+              max_features:
+              - sqrt
+            cv: 3
+            scoring: f1_weighted
+            n_jobs: -1
+          xgboost_classifier:
+            param_grid:
+              n_estimators:
+              - 100
+              max_depth:
+              - 5
+              learning_rate:
+              - 0.1
+              subsample:
+              - 0.8
+              colsample_bytree:
+              - 0.8
+            cv: 3
+            scoring: f1_weighted
+            n_jobs: -1
+          svm_classifier:
+            param_grid:
+              C:
+              - 1
+              kernel:
+              - rbf
+              gamma:
+              - scale
+            cv: 3
+            scoring: f1_weighted
+            n_jobs: -1
+            random_state: 42
+          gradient_boosting_classifier:
+            param_grid:
+              n_estimators:
+              - 100
+              max_depth:
+              - 5
+              learning_rate:
+              - 0.1
+              subsample:
+              - 0.8
+              min_samples_split:
+              - 2
+            cv: 3
+            scoring: f1_weighted
+            n_jobs: -1
+        model_training:
+          test_size: 0.2
+          random_state: 42
+          n_jobs: -1
+          verbose: 1
+    outs:
+    - path: data/05_model_input/X_test_classification.csv
+      md5: 703082b16c11dc1cc43ba9ddecfa800d
+      size: 36321374
+    - path: data/05_model_input/X_train_classification.csv
+      md5: 0c1ba46439ced92c5ce3517a0e642132
+      size: 145265154
+    - path: data/05_model_input/y_test_classification.csv
+      md5: b97bb41a4bd7908b2148f7d1f8595940
+      size: 258185
+    - path: data/05_model_input/y_train_classification.csv
+      md5: e5f3bcd5aa5a14b71076cd78a8bcae38
+      size: 1032654
+    - path: data/06_models/classification/
+      md5: 9bac30c43a959ebdd3625305c502d941.dir
+      size: 26009742
+      nfiles: 5
+    - path: data/07_model_output/classification_comparison.csv
+      md5: 7678f10754ceff1f16b23b3126219503
+      size: 885
+    - path: data/07_model_output/classification_metrics.json
+      md5: 7fff25f8a937f9b2f06380992125fb1d
+      size: 7651
+  train_regression:
+    cmd: kedro run --pipeline=regression
+    deps:
+    - path: data/05_model_input/regression_data.csv
+      md5: ee6a98dbe3adafbd43cfeaa222875fe1
+      size: 355468435
+    - path: src/prediccion_preparacion_pandemias/pipelines/regression_models/
+      md5: b609ea768fd6f6a7aa5d900b75e29e9a.dir
+      size: 43387
+      nfiles: 6
+    params:
+      conf/base/parameters.yml:
+        model_training:
+          test_size: 0.2
+          random_state: 42
+          n_jobs: -1
+          verbose: 1
+        regression_models:
+          linear_regression:
+            param_grid:
+              fit_intercept:
+              - true
+            cv: 3
+            scoring: r2
+            n_jobs: -1
+          ridge_regression:
+            param_grid:
+              alpha:
+              - 1.0
+              fit_intercept:
+              - true
+            cv: 3
+            scoring: r2
+            n_jobs: -1
+          random_forest_regressor:
+            param_grid:
+              n_estimators:
+              - 100
+              max_depth:
+              - 20
+              min_samples_split:
+              - 2
+              min_samples_leaf:
+              - 1
+              max_features:
+              - sqrt
+            cv: 3
+            scoring: r2
+            n_jobs: -1
+          xgboost_regressor:
+            param_grid:
+              n_estimators:
+              - 100
+              max_depth:
+              - 5
+              learning_rate:
+              - 0.1
+              subsample:
+              - 0.8
+              colsample_bytree:
+              - 0.8
+            cv: 3
+            scoring: r2
+            n_jobs: -1
+          gradient_boosting_regressor:
+            param_grid:
+              n_estimators:
+              - 100
+              max_depth:
+              - 5
+              learning_rate:
+              - 0.1
+              subsample:
+              - 0.8
+              min_samples_split:
+              - 2
+            cv: 3
+            scoring: r2
+            n_jobs: -1
+    outs:
+    - path: data/05_model_input/X_test_regression.csv
+      md5: 6c72a1397c4a0cf384aa2c8f0ea7b158
+      size: 97359839
+    - path: data/05_model_input/X_train_regression.csv
+      md5: 9336487283b4fa4bf2fe21dc27cfe1eb
+      size: 389476718
+    - path: data/05_model_input/y_test_regression.csv
+      md5: 428032e64941d849527213f8caca63a6
+      size: 1998047
+    - path: data/05_model_input/y_train_regression.csv
+      md5: fdee0062efdf24d91eafb096fda46ba5
+      size: 7993895
+    - path: data/06_models/regression/
+      md5: d18fd6cbccd42716b91a8ced3d757d9e.dir
+      size: 58320590
+      nfiles: 5
+    - path: data/07_model_output/regression_comparison.csv
+      md5: 04d7c59f50d73ddcfe452445cca3413a
+      size: 607
+    - path: data/07_model_output/regression_metrics.json
+      md5: 4fce08c5327c22b5fef70a237bf032f4
+      size: 1974
