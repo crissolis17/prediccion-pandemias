@@ -1,4 +1,9 @@
 # =============================================================================
+# CATALOG.YML - ACTUALIZADO PARA EP2
+# Proyecto: Predicción y Preparación de Pandemias
+# =============================================================================
+
+# =============================================================================
 # DATASETS RAW (01_raw)
 # =============================================================================
 
@@ -104,6 +109,12 @@ master_dataset:
   save_args:
     index: False
 
+featured_dataset:
+  type: pandas.CSVDataset
+  filepath: data/04_feature/featured_dataset.csv
+  save_args:
+    index: False
+
 # =============================================================================
 # DATASETS MODEL INPUT (05_model_input)
 # =============================================================================
@@ -117,5 +128,227 @@ model_input_classification:
 model_input_regression:
   type: pandas.CSVDataset
   filepath: data/05_model_input/regression_data.csv
+  save_args:
+    index: False
+
+# =============================================================================
+# EP2: TRAIN/TEST SPLITS - CLASSIFICATION
+# =============================================================================
+
+X_train_classification:
+  type: pandas.CSVDataset
+  filepath: data/05_model_input/X_train_classification.csv
+  save_args:
+    index: False
+
+X_test_classification:
+  type: pandas.CSVDataset
+  filepath: data/05_model_input/X_test_classification.csv
+  save_args:
+    index: False
+
+y_train_classification:
+  type: pandas.CSVDataset
+  filepath: data/05_model_input/y_train_classification.csv
+  save_args:
+    index: False
+
+y_test_classification:
+  type: pandas.CSVDataset
+  filepath: data/05_model_input/y_test_classification.csv
+  save_args:
+    index: False
+
+# =============================================================================
+# EP2: TRAIN/TEST SPLITS - REGRESSION
+# =============================================================================
+
+X_train_regression:
+  type: pandas.CSVDataset
+  filepath: data/05_model_input/X_train_regression.csv
+  save_args:
+    index: False
+
+X_test_regression:
+  type: pandas.CSVDataset
+  filepath: data/05_model_input/X_test_regression.csv
+  save_args:
+    index: False
+
+y_train_regression:
+  type: pandas.CSVDataset
+  filepath: data/05_model_input/y_train_regression.csv
+  save_args:
+    index: False
+
+y_test_regression:
+  type: pandas.CSVDataset
+  filepath: data/05_model_input/y_test_regression.csv
+  save_args:
+    index: False
+
+# =============================================================================
+# EP2: CLASSIFICATION MODELS (06_models/classification)
+# =============================================================================
+
+logistic_regression_model:
+  type: pickle.PickleDataset
+  filepath: data/06_models/classification/logistic_regression.pkl
+  backend: pickle
+
+random_forest_classifier_model:
+  type: pickle.PickleDataset
+  filepath: data/06_models/classification/random_forest_classifier.pkl
+  backend: pickle
+
+xgboost_classifier_model:
+  type: pickle.PickleDataset
+  filepath: data/06_models/classification/xgboost_classifier.pkl
+  backend: pickle
+
+svm_classifier_model:
+  type: pickle.PickleDataset
+  filepath: data/06_models/classification/svm_classifier.pkl
+  backend: pickle
+
+gradient_boosting_classifier_model:
+  type: pickle.PickleDataset
+  filepath: data/06_models/classification/gradient_boosting_classifier.pkl
+  backend: pickle
+
+# =============================================================================
+# EP2: REGRESSION MODELS (06_models/regression)
+# =============================================================================
+
+linear_regression_model:
+  type: pickle.PickleDataset
+  filepath: data/06_models/regression/linear_regression.pkl
+  backend: pickle
+
+ridge_regression_model:
+  type: pickle.PickleDataset
+  filepath: data/06_models/regression/ridge_regression.pkl
+  backend: pickle
+
+random_forest_regressor_model:
+  type: pickle.PickleDataset
+  filepath: data/06_models/regression/random_forest_regressor.pkl
+  backend: pickle
+
+xgboost_regressor_model:
+  type: pickle.PickleDataset
+  filepath: data/06_models/regression/xgboost_regressor.pkl
+  backend: pickle
+
+gradient_boosting_regressor_model:
+  type: pickle.PickleDataset
+  filepath: data/06_models/regression/gradient_boosting_regressor.pkl
+  backend: pickle
+
+# =============================================================================
+# EP2: TRAINING RESULTS - CLASSIFICATION
+# =============================================================================
+
+logistic_regression_training:
+  type: json.JSONDataset
+  filepath: data/07_model_output/classification/logistic_regression_training.json
+
+random_forest_classifier_training:
+  type: json.JSONDataset
+  filepath: data/07_model_output/classification/random_forest_classifier_training.json
+
+xgboost_classifier_training:
+  type: json.JSONDataset
+  filepath: data/07_model_output/classification/xgboost_classifier_training.json
+
+svm_classifier_training:
+  type: json.JSONDataset
+  filepath: data/07_model_output/classification/svm_classifier_training.json
+
+gradient_boosting_classifier_training:
+  type: json.JSONDataset
+  filepath: data/07_model_output/classification/gradient_boosting_classifier_training.json
+
+# =============================================================================
+# EP2: TRAINING RESULTS - REGRESSION
+# =============================================================================
+
+linear_regression_training:
+  type: json.JSONDataset
+  filepath: data/07_model_output/regression/linear_regression_training.json
+
+ridge_regression_training:
+  type: json.JSONDataset
+  filepath: data/07_model_output/regression/ridge_regression_training.json
+
+random_forest_regressor_training:
+  type: json.JSONDataset
+  filepath: data/07_model_output/regression/random_forest_regressor_training.json
+
+xgboost_regressor_training:
+  type: json.JSONDataset
+  filepath: data/07_model_output/regression/xgboost_regressor_training.json
+
+gradient_boosting_regressor_training:
+  type: json.JSONDataset
+  filepath: data/07_model_output/regression/gradient_boosting_regressor_training.json
+
+# =============================================================================
+# EP2: EVALUATION METRICS
+# =============================================================================
+
+classification_metrics:
+  type: json.JSONDataset
+  filepath: data/07_model_output/classification_metrics.json
+
+regression_metrics:
+  type: json.JSONDataset
+  filepath: data/07_model_output/regression_metrics.json
+
+# =============================================================================
+# EP2: COMPARISON TABLES
+# =============================================================================
+
+classification_comparison:
+  type: pandas.CSVDataset
+  filepath: data/07_model_output/classification_comparison.csv
+  save_args:
+    index: False
+
+regression_comparison:
+  type: pandas.CSVDataset
+  filepath: data/07_model_output/regression_comparison.csv
+  save_args:
+    index: False
+
+# =============================================================================
+# EP2: PREDICTIONS
+# =============================================================================
+
+classification_predictions:
+  type: pandas.CSVDataset
+  filepath: data/07_model_output/classification_predictions.csv
+  save_args:
+    index: False
+
+regression_predictions:
+  type: pandas.CSVDataset
+  filepath: data/07_model_output/regression_predictions.csv
+  save_args:
+    index: False
+
+# =============================================================================
+# EP2: FEATURE IMPORTANCE
+# =============================================================================
+
+classification_feature_importance:
+  type: pandas.CSVDataset
+  filepath: data/07_model_output/classification_feature_importance.csv
+  save_args:
+    index: False
+
+regression_feature_importance:
+  type: pandas.CSVDataset
+  filepath: data/07_model_output/regression_feature_importance.csv
   save_args:
     index: False
