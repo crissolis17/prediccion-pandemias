@@ -1,7 +1,3 @@
-# Crear/actualizar README.md
-
-@"
-
 # Predicción y Preparación de Pandemias
 
 **Machine Learning - MLY0100**
