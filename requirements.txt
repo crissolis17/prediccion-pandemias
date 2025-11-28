@@ -24,3 +24,5 @@ ipython>=7.0.0
 # Statistical Analysis
 scipy>=1.7.0
 statsmodels>=0.13.0
+
+Werkzeug<3.0.0

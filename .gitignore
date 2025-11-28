@@ -1,5 +1,3 @@
-# Crear/actualizar .gitignore
-@"
 # Datos (pueden ser pesados)
 data/01_raw/*.csv
 data/01_raw/*.xlsx
@@ -53,10 +51,11 @@ conf/local/
 Thumbs.db
 desktop.ini
 
-# DVC (si lo usarás en EP2)
+# DVC
 .dvc/cache/
 .dvc/tmp/
-"@ | Out-File -FilePath .gitignore -Encoding UTF8
 
-# Verificar que se creó
-type .gitignore
+.env
+*.db
+*.backup
+*.corrupto
