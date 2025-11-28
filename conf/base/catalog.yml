@@ -1,4 +1,9 @@
 # =============================================================================
+# CATALOG.YML - CORREGIDO PARA EP1 + EP2 + EP3
+# Proyecto: Predicción y Preparación de Pandemias
+# =============================================================================
+
+# =============================================================================
 # DATASETS RAW (01_raw)
 # =============================================================================
 
@@ -104,10 +109,17 @@ master_dataset:
   save_args:
     index: False
 
+featured_dataset:
+  type: pandas.CSVDataset
+  filepath: data/04_feature/featured_dataset.csv
+  save_args:
+    index: False
+
 # =============================================================================
 # DATASETS MODEL INPUT (05_model_input)
 # =============================================================================
 
+# ✅ CORREGIDO: Apunta a classification_data.csv (que SÍ existe)
 model_input_classification:
   type: pandas.CSVDataset
   filepath: data/05_model_input/classification_data.csv
@@ -119,3 +131,432 @@ model_input_regression:
   filepath: data/05_model_input/regression_data.csv
   save_args:
     index: False
+
+# ✅ CORREGIDO: clustering_data en la ruta correcta
+clustering_data:
+  type: pandas.CSVDataset
+  filepath: data/05_model_input/clustering_data.csv
+  save_args:
+    index: False
+
+# =============================================================================
+# EP2: TRAIN/TEST SPLITS - CLASSIFICATION
+# =============================================================================
+
+X_train_classification:
+  type: pandas.CSVDataset
+  filepath: data/05_model_input/X_train_classification.csv
+  save_args:
+    index: False
+
+X_test_classification:
+  type: pandas.CSVDataset
+  filepath: data/05_model_input/X_test_classification.csv
+  save_args:
+    index: False
+
+y_train_classification:
+  type: pandas.CSVDataset
+  filepath: data/05_model_input/y_train_classification.csv
+  save_args:
+    index: False
+
+y_test_classification:
+  type: pandas.CSVDataset
+  filepath: data/05_model_input/y_test_classification.csv
+  save_args:
+    index: False
+
+# =============================================================================
+# EP2: TRAIN/TEST SPLITS - REGRESSION
+# =============================================================================
+
+X_train_regression:
+  type: pandas.CSVDataset
+  filepath: data/05_model_input/X_train_regression.csv
+  save_args:
+    index: False
+
+X_test_regression:
+  type: pandas.CSVDataset
+  filepath: data/05_model_input/X_test_regression.csv
+  save_args:
+    index: False
+
+y_train_regression:
+  type: pandas.CSVDataset
+  filepath: data/05_model_input/y_train_regression.csv
+  save_args:
+    index: False
+
+y_test_regression:
+  type: pandas.CSVDataset
+  filepath: data/05_model_input/y_test_regression.csv
+  save_args:
+    index: False
+
+# =============================================================================
+# EP2: CLASSIFICATION MODELS (06_models/classification)
+# =============================================================================
+
+logistic_regression_model:
+  type: pickle.PickleDataset
+  filepath: data/06_models/classification/logistic_regression.pkl
+  backend: pickle
+
+random_forest_classifier_model:
+  type: pickle.PickleDataset
+  filepath: data/06_models/classification/random_forest_classifier.pkl
+  backend: pickle
+
+xgboost_classifier_model:
+  type: pickle.PickleDataset
+  filepath: data/06_models/classification/xgboost_classifier.pkl
+  backend: pickle
+
+svm_classifier_model:
+  type: pickle.PickleDataset
+  filepath: data/06_models/classification/svm_classifier.pkl
+  backend: pickle
+
+gradient_boosting_classifier_model:
+  type: pickle.PickleDataset
+  filepath: data/06_models/classification/gradient_boosting_classifier.pkl
+  backend: pickle
+
+# =============================================================================
+# EP2: REGRESSION MODELS (06_models/regression)
+# =============================================================================
+
+linear_regression_model:
+  type: pickle.PickleDataset
+  filepath: data/06_models/regression/linear_regression.pkl
+  backend: pickle
+
+ridge_regression_model:
+  type: pickle.PickleDataset
+  filepath: data/06_models/regression/ridge_regression.pkl
+  backend: pickle
+
+random_forest_regressor_model:
+  type: pickle.PickleDataset
+  filepath: data/06_models/regression/random_forest_regressor.pkl
+  backend: pickle
+
+xgboost_regressor_model:
+  type: pickle.PickleDataset
+  filepath: data/06_models/regression/xgboost_regressor.pkl
+  backend: pickle
+
+gradient_boosting_regressor_model:
+  type: pickle.PickleDataset
+  filepath: data/06_models/regression/gradient_boosting_regressor.pkl
+  backend: pickle
+
+# =============================================================================
+# EP2: TRAINING RESULTS - CLASSIFICATION
+# =============================================================================
+
+logistic_regression_training:
+  type: json.JSONDataset
+  filepath: data/07_model_output/classification/logistic_regression_training.json
+
+random_forest_classifier_training:
+  type: json.JSONDataset
+  filepath: data/07_model_output/classification/random_forest_classifier_training.json
+
+xgboost_classifier_training:
+  type: json.JSONDataset
+  filepath: data/07_model_output/classification/xgboost_classifier_training.json
+
+svm_classifier_training:
+  type: json.JSONDataset
+  filepath: data/07_model_output/classification/svm_classifier_training.json
+
+gradient_boosting_classifier_training:
+  type: json.JSONDataset
+  filepath: data/07_model_output/classification/gradient_boosting_classifier_training.json
+
+# =============================================================================
+# EP2: TRAINING RESULTS - REGRESSION
+# =============================================================================
+
+linear_regression_training:
+  type: json.JSONDataset
+  filepath: data/07_model_output/regression/linear_regression_training.json
+
+ridge_regression_training:
+  type: json.JSONDataset
+  filepath: data/07_model_output/regression/ridge_regression_training.json
+
+random_forest_regressor_training:
+  type: json.JSONDataset
+  filepath: data/07_model_output/regression/random_forest_regressor_training.json
+
+xgboost_regressor_training:
+  type: json.JSONDataset
+  filepath: data/07_model_output/regression/xgboost_regressor_training.json
+
+gradient_boosting_regressor_training:
+  type: json.JSONDataset
+  filepath: data/07_model_output/regression/gradient_boosting_regressor_training.json
+
+# =============================================================================
+# EP2: EVALUATION METRICS
+# =============================================================================
+
+classification_metrics:
+  type: json.JSONDataset
+  filepath: data/07_model_output/classification_metrics.json
+
+regression_metrics:
+  type: json.JSONDataset
+  filepath: data/07_model_output/regression_metrics.json
+
+# =============================================================================
+# EP2: COMPARISON TABLES
+# =============================================================================
+
+classification_comparison:
+  type: pandas.CSVDataset
+  filepath: data/07_model_output/classification_comparison.csv
+  save_args:
+    index: False
+
+regression_comparison:
+  type: pandas.CSVDataset
+  filepath: data/07_model_output/regression_comparison.csv
+  save_args:
+    index: False
+
+# =============================================================================
+# EP2: PREDICTIONS
+# =============================================================================
+
+classification_predictions:
+  type: pandas.CSVDataset
+  filepath: data/07_model_output/classification_predictions.csv
+  save_args:
+    index: False
+
+regression_predictions:
+  type: pandas.CSVDataset
+  filepath: data/07_model_output/regression_predictions.csv
+  save_args:
+    index: False
+
+# =============================================================================
+# EP2: FEATURE IMPORTANCE
+# =============================================================================
+
+classification_feature_importance:
+  type: pandas.CSVDataset
+  filepath: data/07_model_output/classification_feature_importance.csv
+  save_args:
+    index: False
+
+regression_feature_importance:
+  type: pandas.CSVDataset
+  filepath: data/07_model_output/regression_feature_importance.csv
+  save_args:
+    index: False
+
+# =============================================================================
+# EP3: CLUSTERING - ESCALADO Y PREPROCESAMIENTO
+# =============================================================================
+
+X_scaled:
+  type: pickle.PickleDataset
+  filepath: data/06_models/clustering/X_scaled.pkl
+  backend: pickle
+
+clustering_scaler:
+  type: pickle.PickleDataset
+  filepath: data/06_models/clustering/scaler.pkl
+  backend: pickle
+
+# =============================================================================
+# EP3: MODELOS DE CLUSTERING
+# =============================================================================
+
+kmeans_model:
+  type: pickle.PickleDataset
+  filepath: data/06_models/clustering/kmeans_model.pkl
+  backend: pickle
+
+dbscan_model:
+  type: pickle.PickleDataset
+  filepath: data/06_models/clustering/dbscan_model.pkl
+  backend: pickle
+
+hierarchical_model:
+  type: pickle.PickleDataset
+  filepath: data/06_models/clustering/hierarchical_model.pkl
+  backend: pickle
+
+# =============================================================================
+# EP3: LABELS DE CLUSTERING
+# =============================================================================
+
+kmeans_labels:
+  type: pickle.PickleDataset
+  filepath: data/07_model_output/clustering/kmeans_labels.pkl
+  backend: pickle
+
+dbscan_labels:
+  type: pickle.PickleDataset
+  filepath: data/07_model_output/clustering/dbscan_labels.pkl
+  backend: pickle
+
+hierarchical_labels:
+  type: pickle.PickleDataset
+  filepath: data/07_model_output/clustering/hierarchical_labels.pkl
+  backend: pickle
+
+# =============================================================================
+# EP3: MÉTRICAS Y RESULTADOS DE CLUSTERING
+# =============================================================================
+
+elbow_results:
+  type: json.JSONDataset
+  filepath: data/07_model_output/clustering/elbow_results.json
+
+kmeans_metrics:
+  type: json.JSONDataset
+  filepath: data/07_model_output/clustering/kmeans_metrics.json
+
+dbscan_metrics:
+  type: json.JSONDataset
+  filepath: data/07_model_output/clustering/dbscan_metrics.json
+
+hierarchical_metrics:
+  type: json.JSONDataset
+  filepath: data/07_model_output/clustering/hierarchical_metrics.json
+
+clustering_comparison:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/clustering_comparison.csv
+  save_args:
+    index: False
+
+# =============================================================================
+# EP3: PERFILES DE CLUSTERS
+# =============================================================================
+
+kmeans_profiles:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/kmeans_cluster_profiles.csv
+  save_args:
+    index: False
+
+hierarchical_profiles:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/hierarchical_cluster_profiles.csv
+  save_args:
+    index: False
+
+# =============================================================================
+# EP3: REDUCCIÓN DIMENSIONAL - PCA
+# =============================================================================
+
+X_pca:
+  type: pickle.PickleDataset
+  filepath: data/07_model_output/dimensionality_reduction/X_pca.pkl
+  backend: pickle
+
+pca_model:
+  type: pickle.PickleDataset
+  filepath: data/06_models/dimensionality_reduction/pca_model.pkl
+  backend: pickle
+
+pca_metrics:
+  type: json.JSONDataset
+  filepath: data/07_model_output/dimensionality_reduction/pca_metrics.json
+
+# =============================================================================
+# EP3: REDUCCIÓN DIMENSIONAL - t-SNE
+# =============================================================================
+
+X_tsne:
+  type: pickle.PickleDataset
+  filepath: data/07_model_output/dimensionality_reduction/X_tsne.pkl
+  backend: pickle
+
+tsne_metrics:
+  type: json.JSONDataset
+  filepath: data/07_model_output/dimensionality_reduction/tsne_metrics.json
+
+# =============================================================================
+# EP3: COMPARACIÓN REDUCCIÓN DIMENSIONAL
+# =============================================================================
+
+dim_reduction_comparison:
+  type: json.JSONDataset
+  filepath: data/07_model_output/dimensionality_reduction/comparison.json
+
+# =============================================================================
+# EP3: INTEGRATION PIPELINE - DATASETS INTERMEDIOS
+# =============================================================================
+
+clustering_data_with_target:
+  type: pickle.PickleDataset
+  filepath: data/07_model_output/integration/clustering_data_with_target.pkl
+  backend: pickle
+
+classification_data_with_kmeans:
+  type: pickle.PickleDataset
+  filepath: data/07_model_output/integration/classification_data_with_kmeans.pkl
+  backend: pickle
+
+classification_data_with_hierarchical:
+  type: pickle.PickleDataset
+  filepath: data/07_model_output/integration/classification_data_with_hierarchical.pkl
+  backend: pickle
+
+# =============================================================================
+# EP3: INTEGRATION PIPELINE - RESULTADOS
+# =============================================================================
+
+integration_splits:
+  type: pickle.PickleDataset
+  filepath: data/07_model_output/integration/splits.pkl
+  backend: pickle
+
+integration_results:
+  type: pickle.PickleDataset
+  filepath: data/07_model_output/integration/results.pkl
+  backend: pickle
+
+integration_comparison:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/integration_classification_comparison.csv
+  save_args:
+    index: False
+
+integration_feature_importance:
+  type: pickle.PickleDataset
+  filepath: data/07_model_output/integration/feature_importance.pkl
+  backend: pickle
+
+# Integration: Subset extraído automáticamente
+classification_subset:
+  type: pickle.PickleDataset
+  filepath: data/07_model_output/integration/classification_subset.pkl
+  backend: pickle
+
+# Integration: Datos con K-Means cluster
+classification_with_kmeans:
+  type: pickle.PickleDataset
+  filepath: data/07_model_output/integration/classification_with_kmeans.pkl
+  backend: pickle
+
+# Integration: Datos con Hierarchical cluster
+classification_with_hierarchical:
+  type: pickle.PickleDataset
+  filepath: data/07_model_output/integration/classification_with_hierarchical.pkl
+  backend: pickle
+
+cluster_pattern_analysis:
+  type: pickle.PickleDataset
+  filepath: data/07_model_output/unsupervised/cluster_pattern_analysis.pkl
+  backend: pickle

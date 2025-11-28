@@ -1,4 +1,9 @@
 # =============================================================================
+# PARAMETERS.YML - ACTUALIZADO PARA EP2
+# Proyecto: Predicción y Preparación de Pandemias
+# =============================================================================
+
+# =============================================================================
 # BUSINESS UNDERSTANDING PARAMETERS
 # =============================================================================
 
@@ -13,9 +18,9 @@ project:
 # =============================================================================
 
 data_quality:
-  missing_threshold: 0.5 # 50% missing values máximo por columna
+  missing_threshold: 0.7 # 70% missing values máximo por columna
   outlier_method: "IQR"
-  outlier_threshold: 1.5
+  outlier_threshold: 3.0 # Factor IQR
   min_records_per_country: 30
 
 # =============================================================================
@@ -89,3 +94,244 @@ targets:
       - "hospital_beds_per_100k"
       - "doctors_per_1000"
       - "nurses_per_1000"
+
+# =============================================================================
+# EP2: MODEL TRAINING PARAMETERS
+# =============================================================================
+
+model_training:
+  test_size: 0.2
+  random_state: 42
+  n_jobs: -1 # Usar todos los cores disponibles
+  verbose: 1
+
+# =============================================================================
+# EP2: CLASSIFICATION MODELS PARAMETERS (OPTIMIZED)
+# =============================================================================
+
+classification_models:
+  # ---------------------------------------------------------------------------
+  # LOGISTIC REGRESSION (OPTIMIZADO)
+  # ---------------------------------------------------------------------------
+  logistic_regression:
+    param_grid:
+      C: [0.1, 1]
+      penalty: ["l2"]
+      solver: ["lbfgs"]
+      max_iter: [2000]
+    cv: 3
+    scoring: "f1_weighted"
+    n_jobs: -1
+
+  # ---------------------------------------------------------------------------
+  # RANDOM FOREST CLASSIFIER (OPTIMIZADO)
+  # ---------------------------------------------------------------------------
+  random_forest_classifier:
+    param_grid:
+      n_estimators: [100]
+      max_depth: [20]
+      min_samples_split: [2]
+      min_samples_leaf: [1]
+      max_features: ["sqrt"]
+    cv: 3
+    scoring: "f1_weighted"
+    n_jobs: -1
+
+  # ---------------------------------------------------------------------------
+  # XGBOOST CLASSIFIER (OPTIMIZADO)
+  # ---------------------------------------------------------------------------
+  xgboost_classifier:
+    param_grid:
+      n_estimators: [100]
+      max_depth: [5]
+      learning_rate: [0.1]
+      subsample: [0.8]
+      colsample_bytree: [0.8]
+    cv: 3
+    scoring: "f1_weighted"
+    n_jobs: -1
+
+  # ---------------------------------------------------------------------------
+  # SVM CLASSIFIER (OPTIMIZADO)
+  # ---------------------------------------------------------------------------
+  svm_classifier:
+    param_grid:
+      C: [1]
+      kernel: ["rbf"]
+      gamma: ["scale"]
+    cv: 3
+    scoring: "f1_weighted"
+    n_jobs: -1
+    random_state: 42
+
+  # ---------------------------------------------------------------------------
+  # GRADIENT BOOSTING CLASSIFIER (OPTIMIZADO)
+  # ---------------------------------------------------------------------------
+  gradient_boosting_classifier:
+    param_grid:
+      n_estimators: [100]
+      max_depth: [5]
+      learning_rate: [0.1]
+      subsample: [0.8]
+      min_samples_split: [2]
+    cv: 3
+    scoring: "f1_weighted"
+    n_jobs: -1
+
+# =============================================================================
+# EP2: REGRESSION MODELS PARAMETERS (OPTIMIZED - MINIMAL)
+# =============================================================================
+
+regression_models:
+  # ---------------------------------------------------------------------------
+  # LINEAR REGRESSION (OPTIMIZED)
+  # ---------------------------------------------------------------------------
+  linear_regression:
+    param_grid:
+      fit_intercept: [True] # Solo 1 valor
+    cv: 3 # Reducido de 5 a 3
+    scoring: "r2"
+    n_jobs: -1
+
+  # ---------------------------------------------------------------------------
+  # RIDGE REGRESSION (OPTIMIZED)
+  # ---------------------------------------------------------------------------
+  ridge_regression:
+    param_grid:
+      alpha: [1.0] # Solo 1 valor (en lugar de [0.1, 1, 10])
+      fit_intercept: [True] # Solo 1 valor
+    cv: 3
+    scoring: "r2"
+    n_jobs: -1
+
+  # ---------------------------------------------------------------------------
+  # RANDOM FOREST REGRESSOR (OPTIMIZED)
+  # ---------------------------------------------------------------------------
+  random_forest_regressor:
+    param_grid:
+      n_estimators: [100] # Solo 1 valor
+      max_depth: [20] # Solo 1 valor
+      min_samples_split: [2] # Solo 1 valor
+      min_samples_leaf: [1] # Solo 1 valor
+      max_features: ["sqrt"] # Solo 1 valor
+    cv: 3
+    scoring: "r2"
+    n_jobs: -1
+
+  # ---------------------------------------------------------------------------
+  # XGBOOST REGRESSOR (OPTIMIZED)
+  # ---------------------------------------------------------------------------
+  xgboost_regressor:
+    param_grid:
+      n_estimators: [100] # Solo 1 valor
+      max_depth: [5] # Solo 1 valor
+      learning_rate: [0.1] # Solo 1 valor
+      subsample: [0.8] # Solo 1 valor
+      colsample_bytree: [0.8] # Solo 1 valor
+    cv: 3
+    scoring: "r2"
+    n_jobs: -1
+
+  # ---------------------------------------------------------------------------
+  # GRADIENT BOOSTING REGRESSOR (OPTIMIZED)
+  # ---------------------------------------------------------------------------
+  gradient_boosting_regressor:
+    param_grid:
+      n_estimators: [100] # Solo 1 valor
+      max_depth: [5] # Solo 1 valor
+      learning_rate: [0.1] # Solo 1 valor
+      subsample: [0.8] # Solo 1 valor
+      min_samples_split: [2] # Solo 1 valor
+    cv: 3
+    scoring: "r2"
+    n_jobs: -1
+
+# =============================================================================
+# EP2: EVALUATION PARAMETERS
+# =============================================================================
+
+evaluation:
+  classification_metrics:
+    - "accuracy"
+    - "precision"
+    - "recall"
+    - "f1_score"
+    - "roc_auc"
+
+  regression_metrics:
+    - "r2"
+    - "mae"
+    - "mse"
+    - "rmse"
+    - "mape"
+
+  cross_validation:
+    cv: 5
+    shuffle: True
+    stratify: True # Para clasificación
+
+  feature_importance:
+    top_n: 20 # Top N features más importantes
+
+# ===========================================
+# PARÁMETROS EP3 - CLUSTERING
+# ===========================================
+
+clustering:
+  # K-Means
+  kmeans:
+    max_k: 10 # Máximo K para Elbow Method
+    n_init: 10
+    random_state: 42
+
+  # DBSCAN
+  dbscan:
+    eps: 3.0 # Radio de vecindad
+    min_samples: 10 # Mínimo de muestras por cluster
+
+  # Hierarchical Clustering
+  hierarchical:
+    n_clusters: 5 # Número de clusters
+    linkage: "ward" # Opciones: 'ward', 'complete', 'average', 'single'
+
+# Reducción de Dimensionalidad
+dimensionality_reduction:
+  # PCA
+  pca:
+    n_components: null # null = automático (explicar 95% varianza)
+    explained_variance_threshold: 0.95
+
+  # t-SNE
+  tsne:
+    n_components: 2
+    perplexity: 30
+    n_iter: 1000
+    random_state: 42
+
+  # UMAP
+  umap:
+    n_components: 2
+    n_neighbors: 15
+    min_dist: 0.1
+    random_state: 42
+
+# =============================================================================
+# INTEGRATION PIPELINE PARAMETERS
+# =============================================================================
+integration:
+  # Target correcto: preparedness_level (NO risk_level)
+  target_column: "preparedness_level"
+
+  # Número de filas a extraer (debe coincidir con cluster labels)
+  n_rows_subset: 6049
+
+  # Split train/test
+  test_size: 0.2
+  random_state: 42
+
+  # Parámetros del modelo Random Forest
+  model_params:
+    n_estimators: 100
+    max_depth: 10
+    min_samples_split: 5
+    min_samples_leaf: 2
